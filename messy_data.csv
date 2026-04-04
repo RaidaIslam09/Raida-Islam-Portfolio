@@ -1,0 +1,12 @@
+employee_id,name,department,salary,start_date,email
+101,Raida Islam,Analytics,75000,2023-01-15,raida@dell.com
+102,James Smith,Marketing,,2023-03-20,james@dell.com
+103,Priya Patel,Analytics,82000,2023-02-10,priya@dell.com
+101,Raida Islam,Analytics,75000,2023-01-15,raida@dell.com
+104,Carlos Rodriguez,Sales,N/A,2023-05-01,carlos@dell.com
+105,Emma Wilson, Marketing,91000,2023-04-15,emma@dell.com
+106,,Analytics,68000,2023-06-20,david@dell.com
+107,Sofia Garcia,Sales,999999,2023-07-10,sofia@dell.com
+108,Marcus Johnson,Marketing,88000,,marcus@dell.com
+109,Aisha Brown,Analytics,94000,2023-09-05,aisha@dell.com
+110,Tom Davis,Sales,abc,2023-10-01,tom@dell.com
