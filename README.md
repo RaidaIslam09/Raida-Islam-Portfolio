@@ -52,4 +52,4 @@ Cumberlands. MS in Data Analytics. MS in MIS.
 Building practical Python and SQL skills for a Data Analyst career.
 
     github.com/RaidaIslam09
-📋 Portfolio: raida-islam.notion.site
+📋 Portfolio: [raida-islam.notion.site](https://raida-islam.notion.site/Data-Analyst-Portfolio-33843088b7a480be8620d40e733d269c)
