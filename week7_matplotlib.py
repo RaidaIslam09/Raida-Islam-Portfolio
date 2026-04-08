@@ -103,6 +103,34 @@ print("chart 2 saved.")
 print()
 
 # ==========================================
-# Chart 3 - Survival Rate by Gender
-# Question - Did Gender dertermine survival?
+# Chart 3 - Histogram
+# Question -Were most passengers young or old?
 # ==========================================
+
+plt.figure(figsize=(8,5))
+
+# --- Draw the histogram ---
+plt.hist(
+    df["Age"],
+    bins=20,
+    color="steelblue",
+    edgecolor="black"
+)
+
+# ---Add the three required levels ---
+plt.title("Age Distribution of Titanic Passengers", fontsize=14)
+plt.xlabel("Age (years)" , fontsize=12)
+plt.ylabel("Numbers of Passengers" , fontsize=12)
+
+# --- Add a references line at median age ---
+plt.axvline(x=df["Age"].median(), color="red",
+            linestyle="--", label=f"Median age : {df['Age'].median()}")
+plt.legend()
+
+# ---Save and Show ---
+plt.savefig("chart3_age_distribution.png",
+            bbox_inches="tight", dpi=150)
+
+plt.show()
+print("Chart 3 saved.")
+print()
