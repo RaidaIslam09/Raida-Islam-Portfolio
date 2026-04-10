@@ -3,6 +3,7 @@
 **PhD Candidate | Information Technology | University of the Cumberlands**
 
 📂 Portfolio: (https://www.notion.so/raida-islam/Raida-Islam-Portfolio-33843088b7a480be8620d40e733d269c?source=copy_link)
+
 💼 LinkedIn: (https://www.linkedin.com/in/rtislam/)
 
 ---
