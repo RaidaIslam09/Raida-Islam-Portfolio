@@ -153,5 +153,84 @@ df_having = pd.read_sql_query("""
 """, conn)
 print(df_having)
 
+# ==================================================
+# AGGREGATIONS
+# ==================================================
+
+print("\n" + "="*50)
+print("FULL DEPARTMETN SUMMARY")
+print("="*50)
+
+df_summary= pd.read_sql_query("""
+   SELECT department,
+          COUNT(*)    AS total_employees,
+          SUM(salary) AS total_salary_cost,
+          AVG(salary) AS avg_salary,
+          MAX(salary) AS highest_salary,
+          MIN(salary) AS lowest_salary 
+    FROM employees
+    GROUP BY department
+    ORDER BY avg_salary DESC                                                                                                                                                                       
+""", conn)
+print(df_summary)
+
+print("\n" + "="*50)
+print("EMPLOYEES PER CITY")
+print("="*50)
+
+df_city =pd.read_sql_query ("""
+   SELECT city,
+          COUNT(id) AS total_employees
+    FROM employees
+    GROUP BY city
+    ORDER BY total_employees DESC                                                                                                                                               
+""", conn)
+print(df_city)
+
+print("\n" + "="*50)
+print("DEPARTMENTS WITH TOTAL SALARY ABOVE 200000")
+print("="*50)
+
+df_having = pd.read_sql_query("""
+    SELECT department,
+           SUM(salary) AS total_salary_cost
+    FROM employees
+    GROUP BY department
+    HAVING SUM(salary) > 200000
+    ORDER BY total_salary_cost DESC
+""", conn)
+print(df_having)
+
+print("\n" + "="*50)
+print("AGGREGATIONS WITH JOIN — Dept name + budget")
+print("="*50)
+df_join_agg = pd.read_sql_query("""
+    SELECT d.dept_name,
+           d.budget,
+           COUNT(e.id)    AS total_employees,
+           AVG(e.salary)  AS avg_salary,
+           SUM(e.salary)  AS total_salary_cost
+    FROM employees e
+    INNER JOIN departments d
+        ON e.dept_id = d.dept_id
+    GROUP BY d.dept_name, d.budget
+    ORDER BY avg_salary DESC
+""", conn)
+print(df_join_agg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 conn.close()
 print("\nDatabase connection closed.")
