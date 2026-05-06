@@ -265,5 +265,84 @@ df_sub3 = pd.read_sql_query("""
 """, conn)
 print(df_sub3)
 
+# =================================================
+# CTEs - Common Table Expressions
+# ==================================================
+
+print("\n" + "="*50)
+print ("CTE 1 - Department average (readble version)")
+print("="*50)
+
+df_cte1 = pd.read_sql_query("""
+    WITH dept_avg AS (
+        SELECT department,
+               AVG(salary) AS avg_salary 
+        FROM employees
+        GROUP BY department                                                                     
+    )
+    SELECT department,
+           avg_salary
+    FROM dept_avg
+    WHERE avg_salary > 80000
+    ORDER BY avg_salary DESC;                                                                                                                           
+""", conn)
+print(df_cte1)
+
+print("\n" + "="*50)
+print("CTE 2 - Employees above their dept average")
+print("="*50)
+
+df_cte2 = pd.read_sql_query("""
+    WITH dept_avg AS(
+        SELECT department,
+               AVG(salary) AS avg_salary
+        FROM employees
+        GROUP BY department
+
+    )
+    SELECT e.name,
+           e.department,
+           e.salary,
+           ROUND (da.avg_salary,2) AS dept_avg
+    FROM employees e
+    INNER JOIN dept_avg da 
+        ON e.department = da.department
+    WHERE e.salary > da.avg_salary
+    ORDER BY e.salary DESC;
+""" , conn)
+print(df_cte2)
+
+print("\n" + "="*50)
+print("CTE 3 - Employees Above Their Dept Average")
+print("="*50)
+
+df_cte3 = pd.read_sql_query("""
+    WITH
+    dept_avg AS (
+        SELECT department,
+               AVG(salary) AS avg_salary
+        FROM employees
+        GROUP BY department
+    ),
+    high_cost_depts AS (
+        SELECT department
+        FROM employees
+        GROUP BY department
+        HAVING SUM(salary) > 200000
+    )
+    SELECT e.name,
+           e.department,
+           e.salary,
+           ROUND(da.avg_salary, 2) AS dept_avg
+    FROM employees e
+    INNER JOIN dept_avg da
+        ON e.department = da.department
+    INNER JOIN high_cost_depts hcd
+        ON e.department = hcd.department
+    WHERE e.salary > da.avg_salary
+    ORDER BY e.salary DESC
+""", conn)
+print(df_cte3)
+
 conn.close()
 print("\nDatabase connection closed.")
