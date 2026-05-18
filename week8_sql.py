@@ -344,5 +344,110 @@ df_cte3 = pd.read_sql_query("""
 """, conn)
 print(df_cte3)
 
+# ============================================
+# Windows Functions
+# ============================================
+
+print("\n" + "="*50)
+print("WINDOW 1 - Salary rank within each department")
+print("="*50)
+
+df_rank = pd.read_sql_query("""
+     SELECT name,
+            department,
+            salary,
+            RANK() OVER (
+                PARTITION BY department
+                ORDER BY salary DESC
+            ) AS dept_rank
+     FROM employees
+     ORDER BY department, dept_rank                                                                                                                                                   
+""", conn)
+print(df_rank)
+
+print("\n" + "="*50)
+print("WINDOW 2 - Row number (unique, no ties)")
+print ("="*50)
+
+df_rownum =pd.read_sql_query ("""
+    SELECT name,
+           department,
+           salary,
+           ROW_NUMBER() OVER (
+                     PARTITION BY department
+                     ORDER BY salary DESC
+            ) AS row_num
+    FROM employees
+    ORDER BY department, row_num                                                                                                                                                               
+""", conn)
+print(df_rownum)
+
+print("\n" + "="*50)
+print("WINDOW 3 - Top earner per department only")
+print("="*50)
+
+df_top = pd.read_sql_query("""
+    WITH ranked AS (
+        SELECT name,
+               department,
+               salary,
+               ROW_NUMBER() OVER (
+                   PARTITION BY department
+                   ORDER BY salary DESC
+               ) AS row_num
+        FROM employees
+    )
+    SELECT name,
+           department,
+           salary
+    FROM ranked
+    WHERE row_num = 1
+    ORDER BY salary DESC
+""", conn)
+print(df_top)
+
+
+print("\n" + "="*50)
+print("WINDOW 4 — LAG: compare to previous employee salary")
+print("="*50)
+df_lag = pd.read_sql_query("""
+    SELECT name,
+           department,
+           salary,
+           LAG(salary, 1) OVER (
+               ORDER BY salary DESC
+           ) AS prev_salary,
+           salary - LAG(salary, 1) OVER (
+               ORDER BY salary DESC
+           ) AS salary_diff
+    FROM employees
+    ORDER BY salary DESC
+""", conn)
+print(df_lag)
+
+print("\n" + "="*50)
+print("WINDOW 5 — Department avg alongside individual salary")
+print("="*50)
+df_avg = pd.read_sql_query("""
+    SELECT name,
+           department,
+           salary,
+           ROUND(AVG(salary) OVER (
+               PARTITION BY department
+           ), 2) AS dept_avg,
+           salary - ROUND(AVG(salary) OVER (
+               PARTITION BY department
+           ), 2) AS diff_from_avg
+    FROM employees
+    ORDER BY department, salary DESC
+""", conn)
+print(df_avg)
+
+
+
+
+
+
+
 conn.close()
 print("\nDatabase connection closed.")
